@@ -200,6 +200,7 @@ body {
 
 /* ── OPTIONS PANEL ── */
 .options-panel {
+    width: 1080px;
   background: var(--panel-bg);
   border: 1px solid var(--card-border);
   border-radius: 8px;

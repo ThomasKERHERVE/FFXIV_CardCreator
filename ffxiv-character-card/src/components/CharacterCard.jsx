@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import { CATEGORIES, CONTENT_GROUPS } from "../data/jobs";
 import JobIcon from "./JobIcon";
 
@@ -51,8 +51,80 @@ const CharacterCard = forwardRef(function CharacterCard(
   );
 
   const showContent = !checkedOnly || anyContentChecked;
-  const [backgroundPosX, setBackgroundPosX] = useState(50);
-  const [backgroundPosY, setBackgroundPosY] = useState(50);
+
+  const [backgroundPosX, setBackgroundPosX] = useState(0);
+  const [backgroundPosY, setBackgroundPosY] = useState(0);
+  const [backgroundZoom, setBackgroundZoom] = useState(100);
+
+  const [dragging, setDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+
+  const handleMouseDown = (e) => {
+    if (!backgroundImage) return;
+
+  e.preventDefault();
+  setDragging(true);
+  setStartX(e.clientX);
+  setStartY(e.clientY);
+  };
+
+  // Fonction pour mouvement souris
+  const handleMouseMove = (e) => {
+  if (!dragging) return;
+
+  const deltaX = e.clientX - startX;
+  const deltaY = e.clientY - startY;
+
+  setBackgroundPosX((prev) =>
+    Math.max(0, Math.min(100, prev - deltaX * 0.2))
+  );
+
+  setBackgroundPosY((prev) =>
+    Math.max(0, Math.min(100, prev - deltaY * 0.2))
+  );
+
+  setStartX(e.clientX);
+  setStartY(e.clientY);
+  };
+
+  // FONTIONC POUR LA MOLLETTE
+  const handleWheel = (e) => {
+  if (!backgroundImage) return;
+
+  e.preventDefault();
+
+  const delta = e.deltaY > 0 ? -5 : 5;
+
+  setBackgroundZoom((prev) =>
+    Math.max(50, Math.min(300, prev + delta))
+  );
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
+  useEffect(() => {
+  const card = ref?.current;
+
+  if (!card) return;
+
+  const wheelHandler = (e) => {
+    if (!backgroundImage) return;
+
+    e.preventDefault();
+    handleWheel(e);
+  };
+
+  card.addEventListener("wheel", wheelHandler, {
+    passive: false,
+  });
+
+  return () => {
+    card.removeEventListener("wheel", wheelHandler);
+  };
+  }, [ref, backgroundImage]);
 
   return (
 
@@ -60,39 +132,22 @@ const CharacterCard = forwardRef(function CharacterCard(
     <div
       ref={ref}
       className="character-card"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
       style={{
-       backgroundImage: backgroundImage
-         ? `url(${backgroundImage})`
-         : undefined,
-       backgroundSize: "cover",
-       backgroundPosition: `${backgroundPosX}% ${backgroundPosY}%`,
+        backgroundImage: backgroundImage
+          ? `url(${backgroundImage})`
+          : undefined,
+        backgroundSize: `${backgroundZoom}%`,
+        backgroundPosition: `${backgroundPosX}% ${backgroundPosY}%`,
+        backgroundRepeat: "no-repeat",
+        cursor: dragging ? "grabbing" : "grab",
+        userSelect: "none",
+        WebkitUserSelect: "none",
       }}
-    >
-        <div className="control-group">
-          <label>Position fond X : {backgroundPosX}%</label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={backgroundPosX}
-            onChange={(e) =>
-              setBackgroundPosX(Number(e.target.value))
-            }
-          />
-        </div>
-          
-        <div className="control-group">
-          <label>Position fond Y : {backgroundPosY}%</label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={backgroundPosY}
-            onChange={(e) =>
-              setBackgroundPosY(Number(e.target.value))
-            }
-          />
-         </div>
+      >
 
       {frameImage && (
         <img
