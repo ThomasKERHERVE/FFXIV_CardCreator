@@ -1,5 +1,6 @@
 import { CATEGORIES, CONTENT_GROUPS } from "../data/jobs";
 
+
 export default function OptionsPanel({
   displayMode,
   onDisplayModeChange,
@@ -10,6 +11,12 @@ export default function OptionsPanel({
   checkedJobs,
   onToggle,
   onExport,
+  backgroundImage,
+  onBackgroundImageChange,
+  profileImage,
+  onProfileImageChange,
+  frameImage,
+  onFrameImageChange,
 }) {
   const allJobs = CATEGORIES.flatMap((cat) => cat.roles.flatMap((r) => r.jobs));
   const allContent = CONTENT_GROUPS.flatMap((g) => g.jobs);
@@ -23,9 +30,25 @@ export default function OptionsPanel({
     });
   };
 
+  const handleBackgroundUpload = (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const imageUrl = URL.createObjectURL(file);
+  onBackgroundImageChange(imageUrl);
+};
+
+  const handleProfileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const imageUrl = URL.createObjectURL(file);
+    onProfileImageChange(imageUrl);
+  }
+
   return (
     <div className="options-panel">
-      <h3 className="options-title">Options</h3>
+      <h1 className="options-title">Options</h1>
 
       {/* Identity */}
       <div className="option-section">
@@ -42,7 +65,7 @@ export default function OptionsPanel({
         </div>
 
         <div className="option-group">
-          <label>Home World</label>
+          <label>Home World / Title</label>
           <input
             type="text"
             value={characterWorld}
@@ -51,6 +74,29 @@ export default function OptionsPanel({
           />
         </div>
       </div>
+
+{/* 
+        CADRE A REPARER
+        {/* Cadre /*}
+        <div className="option-section">
+          <p className="section-label">Frame</p>
+        
+          <div className="panel-section">
+            <select
+              value={frameImage || ""}
+              onChange={(e) =>
+                onFrameImageChange(e.target.value || null)
+              }
+            >
+              <option value="">None</option>
+              <option value="/frames/kawaii.png"> Kawaii </option>
+              <option value="/frames/cosmic.png"> Cosmic </option>
+          
+            </select>
+          </div>
+        </div>
+
+ */}
 
       {/* Display mode */}
       <div className="option-section">
@@ -146,6 +192,42 @@ export default function OptionsPanel({
           </div>
         ))}
       </div>
+        {/* Background image import */}
+        <div className="option-section">
+            <div className="section-header">
+                <p className="section-label">Background image import</p>
+                <div className="section-actions">
+                    <label id="ImportLabel" className="upload-btn">
+                        Import image
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleBackgroundUpload}
+                          hidden
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        {/* Profile image import */}
+        <div className="option-section">
+            <div className="section-header">
+                <p className="section-label">Profile image import</p>
+                <div className="section-actions">
+                    <label id="ImportLabel" className="upload-btn">
+                        Import image
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleProfileUpload}
+                          hidden
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>
+
 
       {/* Global actions (jobs + content) */}
       <div className="option-section">
