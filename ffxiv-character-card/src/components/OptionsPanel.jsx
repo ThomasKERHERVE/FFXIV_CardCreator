@@ -39,11 +39,11 @@ export default function OptionsPanel({
 };
 
   const handleProfileUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const file = e.target.files?.[0];
+  if (!file) return;
 
-    const imageUrl = URL.createObjectURL(file);
-    onProfileImageChange(imageUrl);
+  const imageUrl = URL.createObjectURL(file);
+  onProfileImageChange(imageUrl);
   }
 
   return (

@@ -51,8 +51,12 @@ const CharacterCard = forwardRef(function CharacterCard(
   );
 
   const showContent = !checkedOnly || anyContentChecked;
+  const [backgroundPosX, setBackgroundPosX] = useState(50);
+  const [backgroundPosY, setBackgroundPosY] = useState(50);
 
   return (
+
+    // BACKGROUND
     <div
       ref={ref}
       className="character-card"
@@ -61,9 +65,35 @@ const CharacterCard = forwardRef(function CharacterCard(
          ? `url(${backgroundImage})`
          : undefined,
        backgroundSize: "cover",
-       backgroundPosition: "center",
+       backgroundPosition: `${backgroundPosX}% ${backgroundPosY}%`,
       }}
     >
+        <div className="control-group">
+          <label>Position fond X : {backgroundPosX}%</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={backgroundPosX}
+            onChange={(e) =>
+              setBackgroundPosX(Number(e.target.value))
+            }
+          />
+        </div>
+          
+        <div className="control-group">
+          <label>Position fond Y : {backgroundPosY}%</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={backgroundPosY}
+            onChange={(e) =>
+              setBackgroundPosY(Number(e.target.value))
+            }
+          />
+         </div>
+
       {frameImage && (
         <img
           src={frameImage}
