@@ -1,19 +1,19 @@
 🎴 FFXIV Character Card Generator
-Outil fan-made pour créer et personnaliser des cartes de personnage Final Fantasy XIV.
+A fan-made tool to create and customize Final Fantasy XIV character cards.
 
-✨ Fonctionnalités
+✨ Features
 
-Créer une carte personnalisée pour ton personnage
-Afficher job, race, et statistiques
-Personnaliser l'apparence de la carte
-Exporter la carte en image
+Create a personalized card for your character
+Display job, race, and stats
+Customize the card appearance
+Export your card as an image
 
 
 ⚠️ Disclaimer
-Projet fan non officiel, sans affiliation avec Square Enix.
-Final Fantasy XIV et tous les éléments associés sont des marques déposées de Square Enix Co., Ltd.
-Aucun asset du jeu n'est redistribué. Projet non commercial, fait pour la communauté.
+Unofficial fan project, not affiliated with Square Enix.
+Final Fantasy XIV and all related elements are trademarks of Square Enix Co., Ltd.
+No game assets are redistributed. Non-commercial project made for the community.
 
-📄 Licence
-Code source sous licence MIT.
-Designs sous licence CC BY-NC-SA 4.0.
+📄 License
+Source code under MIT License.
+Designs under CC BY-NC-SA 4.0.
